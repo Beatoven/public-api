@@ -1,5 +1,7 @@
 # Beatoven.ai Track Composition API
 
+Base URL: https://sync.beatoven.ai
+
 ## Authentication
 
 Beatoven.ai API uses an API token based authentication. With each request, you need to include your API token in the `Authorization` request header. For example, if your API token is `qIN5iSz0CrGcFi0Ic8pGH3k9_iq6BSpC`, then include the following header in each API request -
