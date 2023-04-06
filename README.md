@@ -6,4 +6,6 @@ If you are interested in using the API, please get in touch with hello@beatoven.
 
 Once you have an API key, you can refer to the [API spec](docs/api-spec.md) and start playing around with the API.
 
+You can also find a very basic example of a python script that creates and composes a track [here](examples/compose.py).
+
 If you need any help, please reach out.
