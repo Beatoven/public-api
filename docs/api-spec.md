@@ -38,7 +38,7 @@ This example request body will create a `1 minute` long track with the `Indie` g
 
 **Payload**
 
-`genre`: Genre of a track can be specified here. Refer to this API to get the supported genres.
+`genre`: Genre of a track can be specified here. Refer to [this API](#supported-options) to get the supported genres.
 
 `duration_ms`: The duration of the track in milliseconds. 
 
@@ -64,7 +64,7 @@ This example request body will create a `1 minute` long track with the `Indie` g
 ```
 Each section object requires the following fields - 
 
-`emotion`: The mood/emotion of the resulting music for that section.  Refer to this API to get the supported emotions.
+`emotion`: The mood/emotion of the resulting music for that section.  Refer to [this API](#supported-options) to get the supported emotions.
 
 `start`: Duration in ms where you want that section the begin
 
