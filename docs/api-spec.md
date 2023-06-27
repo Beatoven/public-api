@@ -113,14 +113,14 @@ Once a track has been created, you can get new compositions, either with the alr
 
 **Endpoint**
 
-`POST /api/v1/tracks/<track_id>`
+`POST /api/v1/tracks/<track_id>/compose`
 
 **Arguments**
 - `track_id`: Track ID returned in the response of the track creation request.
 
 **Payload**
 
-Same as track creation payload. You can omit this if you want to compose with the existing parameters.
+Same as track creation payload.
 
 ### Response
 
