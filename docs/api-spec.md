@@ -8,6 +8,16 @@ Beatoven.ai API uses an API token based authentication. With each request, you n
 
 `Authorization: api_key qIN5iSz0CrGcFi0Ic8pGH3k9_iq6BSpC`
 
+
+## Endpoints
+
+- [Creating a track](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#creating-a-new-track)
+- [Composing a track](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#composing-a-track)
+- [Fetching Instruments](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#fetching-instruments)
+- [Checking composition status](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#checking-composition-status)
+- [Fetching a track](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#get-composed-track)
+- [Fetching supported options](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#supported-options)
+
 ## Creating a new track
 
 Before composing a track, you'll need to create/initialize a track.
@@ -214,7 +224,7 @@ Once a composition task finishes successfully, the status request along with rep
 `section_duration`: Duration of the section in milliseconds
 
 
-## Fetching Individual Instruments
+## Fetching Instruments
 
 To fetch individual instrument stems for a given track you would need to call this API, By default stems are not generated for a composed track
 
