@@ -109,7 +109,7 @@ On successful creation, you'll get a track object in response.
 
 Once a track has been created, you can get new compositions, either with the already set parameters of the track or with new ones.
 
-## Request
+### Request
 
 **Endpoint**
 
@@ -135,7 +135,7 @@ If the composition request succeeds, an asynchronous process will begin and you'
 
 Once a composition task has started, you can query the progress of the task using the status request.
 
-## Request
+### Request
 
 **Endpoint**
 
@@ -144,7 +144,7 @@ Once a composition task has started, you can query the progress of the task usin
 **Arguments**
 - `task_id`: Task ID returned in the response of the composition request.
 
-## Response
+### Response
 
 **Example**
 
@@ -218,7 +218,7 @@ Once a composition task finishes successfully, the status request along with rep
 
 To fetch individual instrument stems for a given track you would need to call this API, By default stems are not generated for a composed track
 
-## Request
+### Request
 
 **Endpoint**
 
@@ -278,7 +278,7 @@ Once a composition task finishes successfully, the status request along with rep
 
 To fetch all the track urls for an already composed track
 
-## Request
+### Request
 
 **Endpoint**
 
