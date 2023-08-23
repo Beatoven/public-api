@@ -175,7 +175,9 @@ Once a composition task finishes successfully, the status request along with rep
 
 ```json
 {
-   "meta" : [
+   "meta" : {
+      "download_url": "<signed_s3_url>",
+      "section_options": [
       [
          {
             "instruments" : [
@@ -192,19 +194,119 @@ Once a composition task finishes successfully, the status request along with rep
          {},
          {}
       ]
-    ]
+      ]
+   }
 }
 ```
 
 **Description**
 
-`meta`: List of composed track options. Each option is further a list containing an item per section. So if you have two sections in your track, each item will have two objects. Each of the objects will contain the following fields:
+`download_url`: Complete composed track in mp3 format
+
+`section_options`: List of sections of the composed track and each section is further a list tracks. So if you have two sections in your track, each item will have two objects. Each of the objects will contain the following fields:
 
 `instruments`: List of instruments that appear in the composed tracks
 
 `track_url`: URL to the composed track for that section. This is in .mp3 format
 
 `preview_url`: URL to the short preview of the composed track for that section. This is in .mp3 format
+
+`section_duration`: Duration of the section in milliseconds
+
+
+## Fetching Individual Instruments
+
+To fetch individual instrument stems for a given track you would need to call this API, By default stems are not generated for a composed track
+
+## Request
+
+**Endpoint**
+
+`GET /api/v1/tracks/<track_id>/instrument_urls`
+
+**Arguments**
+- `track_id`: Track ID returned in the response of the track creation request.
+- `version`: (Optional) Track ID version
+
+
+### Response
+
+If the composition request succeeds, an asynchronous process will begin and you'll be delivered a task ID in the success response.
+
+**Example**:
+```json
+{"task_id": "d5b63125-2cea-4709-8e46-1fc040116a9d"}
+```
+
+Check the composition status through the status API similar as mentioned [here](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#checking-composition-status)
+
+### Successful Instrument Fetch
+
+Once a composition task finishes successfully, the status request along with reporting success as state, will also return individual stems for the composed track
+
+**Example**
+
+```json
+{
+   "meta" : [
+      [
+         {
+            "<instrument>": {
+               "preview_url": "",
+               "track_url": "",
+            },
+            "section_number": 0
+         },
+      ]
+   ]
+}
+```
+
+**Description**
+
+`meta`: Similar to compose API response instrument fetch also returns stem urls at a section level. Each section is a list with a dictionary containing the following fields
+
+`instrument`: Name of the stem eg: chords,melody,bass,percussion and each stem contains the url to download them
+
+`track_url`: URL to the composed section for that instrument. This is in .mp3 format
+
+`preview_url`: URL to the short preview of the composed section for that instrument. This is in .mp3 format
+
+`section_number`: The field denotes the section name since the list of sections might not be in the right order because the instrument fetch runs in parallel
+
+## GET composed track
+
+To fetch all the track urls for an already composed track
+
+## Request
+
+**Endpoint**
+
+`GET /api/v1/tracks/<track_id>`
+
+**Arguments**
+- `track_id`: Track ID returned in the response of the track creation request.
+- `version`: (Optional) Track ID version
+
+
+### Response
+
+Response returns the downloadable url, section level urls and instrument level urls (if they exists)
+
+**Example**:
+```json
+{
+   "download_url": "<signed_s3_url>",
+   "section_options": "<section_options>",
+   "instrument_urls": "<instrument_urls>", // optional
+}
+```
+
+`download_url`: Complete composed track in mp3 format
+
+`section_options`: Same as meta [here](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#successful-composition)
+
+`instrument_urls`: Same as meta [here](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#successful-instrument-fetch)
 
 ## Supported Options
 

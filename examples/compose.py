@@ -95,7 +95,7 @@ async def watch_task_status(task_id, interval=5):
             return track_status
 
 
-async def create_and_compose(duration="30000", genre="cinematic", mood="happy", tempo="medium"):
+async def create_and_compose(duration=30000, genre="cinematic", mood="happy", tempo="medium"):
     track_meta = {
         "title": "my track",
         "duration_ms": duration,
