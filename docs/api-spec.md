@@ -178,24 +178,24 @@ Once a composition task finishes successfully, the status request along with rep
    "meta" : {
       "download_url": "<signed_s3_url>",
       "section_options": [
-      [
-         {
-            "instruments" : [
-               "percussion-tabla",
-               "drone-tanpura",
-               "melody-sarangi",
-               "melody-sarod"
-            ],
-            "object_name" : "",
-            "preview_url" : "",
-            "section_duration" : 64000,
-            "track_url" : "/some/url/to/an/mp3/file.mp3"
-         },
-         {},
-         {}
+         [
+            {
+               "instruments" : [
+                  "percussion-tabla",
+                  "drone-tanpura",
+                  "melody-sarangi",
+                  "melody-sarod"
+               ],
+               "object_name" : "",
+               "preview_url" : "",
+               "section_duration" : 64000,
+               "track_url" : "/some/url/to/an/mp3/file.mp3"
+            },
+         ],
+         [],
+         [],
       ]
-      ]
-   }
+}
 }
 ```
 
@@ -203,7 +203,7 @@ Once a composition task finishes successfully, the status request along with rep
 
 `download_url`: Complete composed track in mp3 format
 
-`section_options`: List of sections of the composed track and each section is further a list tracks. So if you have two sections in your track, each item will have two objects. Each of the objects will contain the following fields:
+`section_options`: List of sections of the composed track and each section is further a list with track information. The list is sorted at a section level which means the first list is the first section and so on. So if you have two sections in your track, each item will have two objects and each of the objects will contain the following fields:
 
 `instruments`: List of instruments that appear in the composed tracks
 
@@ -251,13 +251,14 @@ Once a composition task finishes successfully, the status request along with rep
    "meta" : [
       [
          {
-            "<instrument>": {
+            "<instrument_name>": {
                "preview_url": "",
-               "track_url": "",
+               "track_url": "/some/url/stem/melody.mp3",
             },
-            "section_number": 0
          },
-      ]
+      ],
+      [],
+      []
    ]
 }
 ```
@@ -266,13 +267,12 @@ Once a composition task finishes successfully, the status request along with rep
 
 `meta`: Similar to compose API response instrument fetch also returns stem urls at a section level. Each section is a list with a dictionary containing the following fields
 
-`instrument`: Name of the stem eg: chords,melody,bass,percussion and each stem contains the url to download them
+`instrument`: Name of the stem eg: chords,melody,bass,percussion and each stem contains these two url that can be used to download them:
 
 `track_url`: URL to the composed section for that instrument. This is in .mp3 format
 
 `preview_url`: URL to the short preview of the composed section for that instrument. This is in .mp3 format
 
-`section_number`: The field denotes the section name since the list of sections might not be in the right order because the instrument fetch runs in parallel
 
 ## GET composed track
 
@@ -298,7 +298,7 @@ Response returns the downloadable url, section level urls and instrument level u
 {
    "download_url": "<signed_s3_url>",
    "section_options": "<section_options>",
-   "instrument_urls": "<instrument_urls>", // optional
+   "instrument_urls": "<instrument_urls>",
 }
 ```
 
