@@ -8,6 +8,16 @@ Beatoven.ai API uses an API token based authentication. With each request, you n
 
 `Authorization: api_key qIN5iSz0CrGcFi0Ic8pGH3k9_iq6BSpC`
 
+
+## Endpoints
+
+- [Creating a track](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#creating-a-new-track)
+- [Composing a track](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#composing-a-track)
+- [Fetching Instruments](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#fetching-instruments)
+- [Checking composition status](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#checking-composition-status)
+- [Fetching a track](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#get-composed-track)
+- [Fetching supported options](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#supported-options)
+
 ## Creating a new track
 
 Before composing a track, you'll need to create/initialize a track.
@@ -109,7 +119,7 @@ On successful creation, you'll get a track object in response.
 
 Once a track has been created, you can get new compositions, either with the already set parameters of the track or with new ones.
 
-## Request
+### Request
 
 **Endpoint**
 
@@ -135,7 +145,7 @@ If the composition request succeeds, an asynchronous process will begin and you'
 
 Once a composition task has started, you can query the progress of the task using the status request.
 
-## Request
+### Request
 
 **Endpoint**
 
@@ -144,7 +154,7 @@ Once a composition task has started, you can query the progress of the task usin
 **Arguments**
 - `task_id`: Task ID returned in the response of the composition request.
 
-## Response
+### Response
 
 **Example**
 
@@ -175,36 +185,138 @@ Once a composition task finishes successfully, the status request along with rep
 
 ```json
 {
-   "meta" : [
-      [
-         {
-            "instruments" : [
-               "percussion-tabla",
-               "drone-tanpura",
-               "melody-sarangi",
-               "melody-sarod"
-            ],
-            "object_name" : "",
-            "preview_url" : "",
-            "section_duration" : 64000,
-            "track_url" : "/some/url/to/an/mp3/file.mp3"
-         },
-         {},
-         {}
+   "meta" : {
+      "download_url": "<signed_s3_url>",
+      "section_options": [
+         [
+            {
+               "instruments" : [
+                  "percussion-tabla",
+                  "drone-tanpura",
+                  "melody-sarangi",
+                  "melody-sarod"
+               ],
+               "object_name" : "",
+               "preview_url" : "",
+               "section_duration" : 64000,
+               "track_url" : "/some/url/to/an/mp3/file.mp3"
+            },
+         ],
+         [],
+         [],
       ]
-    ]
+}
 }
 ```
 
 **Description**
 
-`meta`: List of composed track options. Each option is further a list containing an item per section. So if you have two sections in your track, each item will have two objects. Each of the objects will contain the following fields:
+`download_url`: Complete composed track in mp3 format
+
+`section_options`: List of sections of the composed track and each section is further a list with track information. The list is sorted at a section level which means the first list is the first section and so on. So if you have two sections in your track, each item will have two objects and each of the objects will contain the following fields:
 
 `instruments`: List of instruments that appear in the composed tracks
 
 `track_url`: URL to the composed track for that section. This is in .mp3 format
 
 `preview_url`: URL to the short preview of the composed track for that section. This is in .mp3 format
+
+`section_duration`: Duration of the section in milliseconds
+
+
+## Fetching Instruments
+
+To fetch individual instrument stems for a given track you would need to call this API, By default stems are not generated for a composed track
+
+### Request
+
+**Endpoint**
+
+`GET /api/v1/tracks/<track_id>/instrument_urls`
+
+**Arguments**
+- `track_id`: Track ID returned in the response of the track creation request.
+- `version`: (Optional) Track ID version
+
+
+### Response
+
+If the composition request succeeds, an asynchronous process will begin and you'll be delivered a task ID in the success response.
+
+**Example**:
+```json
+{"task_id": "d5b63125-2cea-4709-8e46-1fc040116a9d"}
+```
+
+Check the composition status through the status API similar as mentioned [here](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#checking-composition-status)
+
+### Successful Instrument Fetch
+
+Once a composition task finishes successfully, the status request along with reporting success as state, will also return individual stems for the composed track
+
+**Example**
+
+```json
+{
+   "meta" : [
+      [
+         {
+            "<instrument_name>": {
+               "preview_url": "",
+               "track_url": "/some/url/stem/melody.mp3",
+            },
+         },
+      ],
+      [],
+      []
+   ]
+}
+```
+
+**Description**
+
+`meta`: Similar to compose API response instrument fetch also returns stem urls at a section level. Each section is a list with a dictionary containing the following fields
+
+`instrument`: Name of the stem eg: chords,melody,bass,percussion and each stem contains these two url that can be used to download them:
+
+`track_url`: URL to the composed section for that instrument. This is in .mp3 format
+
+`preview_url`: URL to the short preview of the composed section for that instrument. This is in .mp3 format
+
+
+## GET composed track
+
+To fetch all the track urls for an already composed track
+
+### Request
+
+**Endpoint**
+
+`GET /api/v1/tracks/<track_id>`
+
+**Arguments**
+- `track_id`: Track ID returned in the response of the track creation request.
+- `version`: (Optional) Track ID version
+
+
+### Response
+
+Response returns the downloadable url, section level urls and instrument level urls (if they exists)
+
+**Example**:
+```json
+{
+   "download_url": "<signed_s3_url>",
+   "section_options": "<section_options>",
+   "instrument_urls": "<instrument_urls>",
+}
+```
+
+`download_url`: Complete composed track in mp3 format
+
+`section_options`: Same as meta [here](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#successful-composition)
+
+`instrument_urls`: Same as meta [here](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#successful-instrument-fetch)
 
 ## Supported Options
 
