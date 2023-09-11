@@ -1,4 +1,3 @@
-from this import d
 from typing import List
 import asyncio
 import os
@@ -6,7 +5,7 @@ import aiohttp
 import aiofiles
 
 BACKEND_V1_API_URL = "https://sync.beatoven.ai/api/v1"
-BACKEND_API_HEADER_KEY = os.getenv("BEATOVEN_API_KEY", "")
+BACKEND_API_HEADER_KEY = os.getenv("BEATOVEN_API_KEY", "e95277cf15d442e8b9c0_7fdd235ff0d2")
 
 async def create_track(request_data):
     async with aiohttp.ClientSession() as session:
@@ -20,9 +19,9 @@ async def create_track(request_data):
                 data = await response.json()
                 return data
         except aiohttp.ClientConnectionError as e:
-            return {"error": "Could not connect to beatoven.ai"}
+            raise Exception({"error": "Could not connect to beatoven.ai"})
         except:
-            return {"error": "Failed to make a request to beatoven.ai"}
+            raise Exception({"error": "Failed to make a request to beatoven.ai"})
 
 
 async def compose_track(request_data, track_id):
@@ -36,12 +35,13 @@ async def compose_track(request_data, track_id):
                 if response.status == 200:
                     data = await response.json()
                     return data
-                else:
-                    return {"error": "Failed to compose a track"}
         except aiohttp.ClientConnectionError:
-            return {"error": "Could not connect to beatoven.ai"}
+            raise Exception({"error": "Could not connect to beatoven.ai"})
         except:
-            return {"error": "Failed to make a request to beatoven.ai"}
+            raise Exception({"error": "Failed to make a request to beatoven.ai"})
+        finally:
+            if not data.get("task_id"):
+                raise Exception(data)
 
 
 async def get_track_status(task_id):
@@ -55,11 +55,11 @@ async def get_track_status(task_id):
                     data = await response.json()
                     return data
                 else:
-                    return {"error": "Composition failed"}
+                    raise Exception({"error": "Composition failed"})
         except aiohttp.ClientConnectionError as e:
-            return {"error": "Could not connect"}
+            raise Exception({"error": "Could not connect"})
         except:
-            return {"error": "Failed to make a request"}
+            raise Exception({"error": "Failed to make a request"})
 
 
 async def handle_track_file(track_path: str, track_url: str):
@@ -71,21 +71,21 @@ async def handle_track_file(track_path: str, track_url: str):
                         await f.write(await response.read())
                         return {}
         except aiohttp.ClientConnectionError as e:
-            return {"error": "Could not download file"}
+            raise Exception({"error": "Could not download file"})
         except:
-            return {"error": "Failed to make a request to get track file"}
+            raise Exception({"error": "Failed to make a request to get track file"})
 
 
 async def watch_task_status(task_id, interval=5):
     while True:
         track_status = await get_track_status(task_id)
         if "error" in track_status:
-            return track_status
+            raise Exception(track_status)
 
         if track_status["state"] == "PENDING":
             await asyncio.sleep(interval)
         elif track_status["state"] == "FAILURE":
-            return {"error": "task failed"}
+            raise Exception({"error": "task failed"})
         elif track_status["state"] == "PROGRESS":
             progress_info = track_status["meta"]
             progress_percentage = int(progress_info["percentage"])
@@ -119,9 +119,10 @@ async def create_and_compose(duration=30000, genre="cinematic", mood="happy", te
     print(f"Started composition task with ID: {task_id}")
 
     generation_meta = await watch_task_status(task_id)
-    track_url =  generation_meta["meta"][0][0]["track_url"]
+    track_url =  generation_meta["meta"]["download_url"]
     print(f"Downloading track file")
     await handle_track_file(os.path.join(os.getcwd(), "composed_track.mp3"), track_url)
+    print("Composed! you can find your track as `composed_track.mp3`")
 
 
 if __name__ == '__main__':
