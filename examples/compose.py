@@ -5,7 +5,7 @@ import aiohttp
 import aiofiles
 
 BACKEND_V1_API_URL = "https://sync.beatoven.ai/api/v1"
-BACKEND_API_HEADER_KEY = os.getenv("BEATOVEN_API_KEY", "e95277cf15d442e8b9c0_7fdd235ff0d2")
+BACKEND_API_HEADER_KEY = os.getenv("BEATOVEN_API_KEY", "")
 
 async def create_track(request_data):
     async with aiohttp.ClientSession() as session:
