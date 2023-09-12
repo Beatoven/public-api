@@ -17,7 +17,8 @@ Beatoven.ai API uses an API token based authentication. With each request, you n
 - [Checking composition status](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#checking-composition-status)
 - [Fetching a track](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#get-composed-track)
 - [Fetching supported options](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#supported-options)
-- [API Usage](api-usage)
+- [API Usage](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#api-usage)
+
 
 ## Creating a new track
 
