@@ -1,0 +1,8 @@
+[project]
+name = "beatoven_sdk"
+version = "0.0.1"
+dependencies = ["asyncio","aiohttp"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
