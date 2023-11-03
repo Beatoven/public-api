@@ -20,7 +20,7 @@ async def get_track_by_id(track_id):
     return track_id, track_url
 
 
-async def create_new_track(
+async def compose_new_track(
     title=None,
     track_duration=30000,
     track_genre="cinematic",
