@@ -1,0 +1,14 @@
+[project]
+name = "beatoven_sdk"
+version = "0.0.1"
+dependencies = ["asyncio", "aiohttp"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[project.optional-dependencies]
+tests = ["python-dotenv", "pytest", "pytest-asyncio" ,"black"]

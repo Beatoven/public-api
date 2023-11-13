@@ -1,0 +1,5 @@
+*.egg-info
+dist
+__pycache__
+*.mp3
+.env
