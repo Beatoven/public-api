@@ -11,7 +11,7 @@ def track_info():
 
 
 @pytest.mark.asyncio
-async def test_list_tracks(track_info):
+async def test_compose_track(track_info):
     existing_tracks = await list_all_tracks()
 
     track_id, track_url = await compose_new_track(track_info)
