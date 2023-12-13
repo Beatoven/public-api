@@ -17,6 +17,8 @@ Beatoven.ai API uses an API token based authentication. With each request, you n
 - [Checking composition status](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#checking-composition-status)
 - [Fetching a track](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#get-composed-track)
 - [Fetching supported options](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#supported-options)
+- [API Usage](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#api-usage)
+
 
 ## Creating a new track
 
@@ -373,3 +375,25 @@ You can use this API, to get the supported values for track parameters like genr
 Fields like `genre`, `mood` and `tempo` might be self-explainatory.
 
 `blockedParameters`: While most of the options in genre, mood and tempo can be combined to create a track. Some combinations might lead to errors due to limitations in our composition system. The list in the value of `blockedParameters` is a list of those combinations.
+
+
+## API Usage
+
+Get usage info of your API token
+
+
+**Endpoint**
+
+`GET /api/v1/usage`
+
+**Payload Example**
+
+```json
+{
+        "email": "test@email.com",
+        "usage": {
+            "calls_made": 10,
+            "remaining_calls": 1729,
+        },
+}
+```
