@@ -30,7 +30,16 @@ Before composing a track, you'll need to create/initialize a track.
 
 **Payload Example**
 
-This example request body will create a `1 minute` long track with the `Indie` genre and `happy` mood.
+`prompt`: Text instruction used to compose music.
+
+
+```json
+{
+   "prompt": "Make a 30 second upbeat EDM track for a party"
+}
+```
+
+Or you can explicitly pass the composition parameters as a json, for example the request body below will create a `1 minute` long track with the `Indie` genre and `happy` mood.
 
 ```json
 {
