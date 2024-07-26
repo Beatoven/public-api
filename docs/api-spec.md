@@ -303,7 +303,7 @@ Once a composition task finishes successfully, the status request along with rep
 
 ## GET composed track
 
-To fetch all the track urls for an already composed track. This API requires that the [fetching instruments API](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#fetching-instruments) call has been already made
+To fetch all the track urls for an already composed track. This API requires that the [fetching instruments API](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#fetching-instruments) call has already been made
 
 ### Request
 
