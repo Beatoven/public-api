@@ -26,7 +26,7 @@ Before composing a track, you'll need to create/initialize a track.
 
 **Endpoint**
 
-`POST /api/v1/tracks`
+`POST /api/v2/tracks`
 
 **Payload Example**
 
@@ -132,7 +132,7 @@ Once a track has been created, you can get new compositions, either with the alr
 
 **Endpoint**
 
-`POST /api/v1/tracks/<track_id>/compose`
+`POST /api/v2/tracks/<track_id>/compose`
 
 **Arguments**
 - `track_id`: Track ID returned in the response of the track creation request.
@@ -158,7 +158,7 @@ Once a composition task has started, you can query the progress of the task usin
 
 **Endpoint**
 
-`GET /api/v1/status/<task_id>`
+`GET /api/v2/status/<task_id>`
 
 **Arguments**
 - `task_id`: Task ID returned in the response of the composition request.
@@ -241,12 +241,20 @@ To fetch individual instrument stems for a given track you would need to call th
 
 **Endpoint**
 
-`GET /api/v1/tracks/<track_id>/instrument_urls`
+`POST /api/v2/tracks/<track_id>/instrument_urls`
 
 **Arguments**
 - `track_id`: Track ID returned in the response of the track creation request.
 - `version`: (Optional) Track ID version
 
+
+**Payload**
+
+Empty JSON
+
+```
+{}
+```
 
 ### Response
 
@@ -295,13 +303,13 @@ Once a composition task finishes successfully, the status request along with rep
 
 ## GET composed track
 
-To fetch all the track urls for an already composed track
+To fetch all the track urls for an already composed track. This API requires that the [fetching instruments API](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#fetching-instruments) call has already been made
 
 ### Request
 
 **Endpoint**
 
-`GET /api/v1/tracks/<track_id>`
+`GET /api/v2/tracks/<track_id>`
 
 **Arguments**
 - `track_id`: Track ID returned in the response of the track creation request.
@@ -333,7 +341,7 @@ You can use this API, to get the supported values for track parameters like genr
 
 **Endpoint**
 
-`GET /api/v1/composition_params`
+`GET /api/v2/composition_params`
 
 **Payload Example**
 
