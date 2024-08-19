@@ -8,7 +8,6 @@ Beatoven.ai API uses an API token based authentication. With each request, you n
 
 `Authorization: api_key qIN5iSz0CrGcFi0Ic8pGH3k9_iq6BSpC`
 
-
 ## Endpoints
 
 - [Creating a track](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#creating-a-new-track)
@@ -32,91 +31,69 @@ Before composing a track, you'll need to create/initialize a track.
 
 `prompt`: Text instruction used to compose music.
 
-
 ```json
 {
-   "prompt": "Make a 30 second upbeat EDM track for a party"
+  "prompt": "Make a 30 second upbeat EDM track for a party"
 }
 ```
-
-Or you can explicitly pass the composition parameters as a json, for example the request body below will create a `1 minute` long track with the `Indie` genre and `happy` mood.
-
-```json
-{
-    "duration_ms": 60000,
-    "tempo": "medium",
-    "title": "demo",
-    "genre": "indie",
-    "sections": [
-        {
-            "emotion": "happy",
-            "length": 60000,
-            "start": 0
-        }
-    ]
-}
-```
-
-**Payload**
-
-`genre`: Genre of a track can be specified here. Refer to [this API](#supported-options) to get the supported genres.
-
-`duration_ms`: The duration of the track in milliseconds. 
-
-`tempo`: Speed of the track. It can be changed to one of these values - `slow`, `medium`, `fast`.
-
-`title`: Title of the track
-
-`sections`: A track created on beatoven.ai can have one or more moods. To allow multiple moods, we divide a track into sections. By default, a track will have one section. For defining multiple moods, you'd need to define multiple sections. For example, to have two moods (`happy` and `angry`) in your track, the sections array would look like this -
-
-```json
-[
-   {
-      "emotion": "happy",
-      "start": "0",
-      "length": "30000"
-   },
-   {
-      "emotion": "angry",
-      "start": "30000",
-      "length": "60000"
-   }
-]
-```
-Each section object requires the following fields - 
-
-`emotion`: The mood/emotion of the resulting music for that section.  Refer to [this API](#supported-options) to get the supported emotions.
-
-`start`: Duration in ms where you want that section the begin
-
-`length`: Duration in ms for how long you want the section to continue
-
-***Note***: When creating multiple sections, please ensure you cover the entire track duration with non-overlapping sections. That is, the second section should start where the first ends, and so on.
 
 ### Response
 
 On successful creation, you'll get a track object in response.
 
 **Example**
+
 ```json
 {
-   "status" : "Created successfully",
-   "uuid" : "bd517be6-ce63-43f1-b0ad-475230fcd2b4",
-   "track" : {
-      "created_at" : "Tue, 04 Apr 2023 09:49:33 GMT",
-      "duration_ms" : 60000,
-      "genre" : "Ambient",     
-      "sections" : [
-         {
-            "emotion" : "motivational",
-            "length" : 60000,
-            "start" : 0,
-         }
-      ],
-      "tempo" : "medium",
-      "title" : "Talented Anger created by API",
-      "version" : 0
-   }
+  "status": "Created successfully",
+  "track": {
+    "base_loop_mapping": "electronic_happy_fast",
+    "base_loops": [
+      "90a4cb25-fde6-45b9-93bc-25ef9c013d6f.wav",
+      "a518d45e-7daa-415c-a744-356996db7f8c.wav",
+      "a9432157-ea09-4b11-917e-79aef3bac7e3.wav",
+      "cee0a437-2555-4eae-a933-a32e95d98a59.wav",
+      "0bdaa484-4c75-4f89-aa8d-3023bc55fda6.wav"
+    ],
+    "created_at": "Mon, 19 Aug 2024 07:01:25 GMT",
+    "duration_ms": 30000,
+    "genre": "edm",
+    "instrument_roles": [
+      {
+        "description": "edm,energetic,",
+        "instrument_role": "melody"
+      },
+      {
+        "description": "edm,energetic,",
+        "instrument_role": "chords"
+      },
+      {
+        "description": "edm,energetic,",
+        "instrument_role": "bass"
+      },
+      {
+        "description": "edm,energetic,",
+        "instrument_role": "percussion"
+      }
+    ],
+    "media": {
+      "type": "no media",
+      "url": ""
+    },
+    "music_prompt": "upbeat edm party track",
+    "sections": [
+      {
+        "emotion": "energetic",
+        "length": 30000,
+        "start": 0
+      }
+    ],
+    "tempo": "fast",
+    "title": "party starter",
+    "track_url": "",
+    "version": 0
+  },
+  "uuid": "81b38b35-6535-4230-9e34-7c123e7d1348"
 }
 ```
 
@@ -135,6 +112,7 @@ Once a track has been created, you can get new compositions, either with the alr
 `POST /api/v2/tracks/<track_id>/compose`
 
 **Arguments**
+
 - `track_id`: Track ID returned in the response of the track creation request.
 
 **Payload**
@@ -146,8 +124,9 @@ Same as track creation payload.
 If the composition request succeeds, an asynchronous process will begin and you'll be delivered a task ID in the success response.
 
 **Example**:
+
 ```json
-{"task_id": "abcd442-baus4394-ajos4834-mvn7bffd"}
+{ "task_id": "abcd442-baus4394-ajos4834-mvn7bffd" }
 ```
 
 ## Checking composition status
@@ -161,6 +140,7 @@ Once a composition task has started, you can query the progress of the task usin
 `GET /api/v2/status/<task_id>`
 
 **Arguments**
+
 - `task_id`: Task ID returned in the response of the composition request.
 
 ### Response
@@ -169,11 +149,67 @@ Once a composition task has started, you can query the progress of the task usin
 
 ```json
 {
-   "meta" : {
-      "message" : "Spicing up your composition",
-      "percentage" : 64
-   },
-   "state" : "PROGRESS"
+  "meta": {
+    "message": "Mixing your track",
+    "payload": {
+      "api_request": true,
+      "base_loop_mapping": "electronic_happy_fast",
+      "base_loops": [
+        "90a4cb25-fde6-45b9-93bc-25ef9c013d6f.wav",
+        "a518d45e-7daa-415c-a744-356996db7f8c.wav",
+        "a9432157-ea09-4b11-917e-79aef3bac7e3.wav",
+        "cee0a437-2555-4eae-a933-a32e95d98a59.wav",
+        "0bdaa484-4c75-4f89-aa8d-3023bc55fda6.wav"
+      ],
+      "created_at": "Mon, 19 Aug 2024 10:51:30 GMT",
+      "duration_ms": 30000,
+      "genre": "edm",
+      "instrument_roles": [
+        {
+          "description": "edm,energetic,",
+          "instrument_role": "melody"
+        },
+        {
+          "description": "edm,energetic,",
+          "instrument_role": "chords"
+        },
+        {
+          "description": "edm,energetic,",
+          "instrument_role": "bass"
+        },
+        {
+          "description": "edm,energetic,",
+          "instrument_role": "percussion"
+        }
+      ],
+      "instruments": [],
+      "media": {
+        "type": "no media",
+        "url": ""
+      },
+      "medium_of_composition": "audio",
+      "music_prompt": "upbeat edm party track",
+      "project_id": "81b38b35-6535-4230-9e34-7c123e7d1348",
+      "sections": [
+        {
+          "emotion": "energetic",
+          "length": 30000.0,
+          "start": 0
+        }
+      ],
+      "signed_url": true,
+      "source": {
+        "api_key": "<api_key>"
+      },
+      "task_id": "31c2f468-392d-4a6c-9250-9f0b6bd94c9e",
+      "tempo": "fast",
+      "title": "party starter",
+      "version": 1,
+      "volumeCurve": []
+    },
+    "percentage": 70
+  },
+  "state": "PROGRESS"
 }
 ```
 
@@ -183,7 +219,7 @@ Once a composition task has started, you can query the progress of the task usin
 
 - `pending`: The task has not started yet
 - `failure`: The task has failed
-- `progress`:  The task is in progress. The response object has additional metadata regarding how much the task has progressed. The value is stored in `generationProgress` field.
+- `progress`: The task is in progress. The response object has additional metadata regarding how much the task has progressed. The value is stored in `generationProgress` field.
 - `success`: The task has succeeded. The response object has additional metadata of the composed track assets which you'll need to extract to listen to the track. See below for details.
 
 ### Successful Composition
@@ -194,27 +230,28 @@ Once a composition task finishes successfully, the status request along with rep
 
 ```json
 {
-   "meta" : {
-      "download_url": "<signed_s3_url>",
-      "section_options": [
-         [
-            {
-               "instruments" : [
-                  "percussion-tabla",
-                  "drone-tanpura",
-                  "melody-sarangi",
-                  "melody-sarod"
-               ],
-               "object_name" : "",
-               "preview_url" : "",
-               "section_duration" : 64000,
-               "track_url" : "/some/url/to/an/mp3/file.mp3"
-            },
-         ],
-         [],
-         [],
+  "meta": {
+    "download_url": "<signed_s3_url>",
+    "section_options": [
+      [
+        {
+          "instruments": [
+            "bass-bass",
+            "percussion-percussion",
+            "chords-chords",
+            "melody-melody"
+          ],
+          "option_number": 0,
+          "preview_url": "<signed_s3_url>",
+          "section_bar_boundary": [0, 15.0],
+          "section_duration": 30000.0,
+          "tempo": 120.0,
+          "track_url": "<signed_s3_url>"
+        }
       ]
-}
+    ]
+  },
+  "state": "SUCCESS"
 }
 ```
 
@@ -232,7 +269,6 @@ Once a composition task finishes successfully, the status request along with rep
 
 `section_duration`: Duration of the section in milliseconds
 
-
 ## Fetching Instruments
 
 To fetch individual instrument stems for a given track you would need to call this API, By default stems are not generated for a composed track
@@ -244,9 +280,9 @@ To fetch individual instrument stems for a given track you would need to call th
 `POST /api/v2/tracks/<track_id>/instrument_urls`
 
 **Arguments**
+
 - `track_id`: Track ID returned in the response of the track creation request.
 - `version`: (Optional) Track ID version
-
 
 **Payload**
 
@@ -261,8 +297,9 @@ Empty JSON
 If the composition request succeeds, an asynchronous process will begin and you'll be delivered a task ID in the success response.
 
 **Example**:
+
 ```json
-{"task_id": "d5b63125-2cea-4709-8e46-1fc040116a9d"}
+{ "task_id": "d5b63125-2cea-4709-8e46-1fc040116a9d" }
 ```
 
 Check the composition status through the status API similar as mentioned [here](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#checking-composition-status)
@@ -275,18 +312,18 @@ Once a composition task finishes successfully, the status request along with rep
 
 ```json
 {
-   "meta" : [
-      [
-         {
-            "<instrument_name>": {
-               "preview_url": "",
-               "track_url": "/some/url/stem/melody.mp3",
-            },
-         },
-      ],
-      [],
-      []
-   ]
+  "meta": [
+    [
+      {
+        "<instrument_name>": {
+          "preview_url": "",
+          "track_url": "/some/url/stem/melody.mp3"
+        }
+      }
+    ],
+    [],
+    []
+  ]
 }
 ```
 
@@ -300,7 +337,6 @@ Once a composition task finishes successfully, the status request along with rep
 
 `preview_url`: URL to the short preview of the composed section for that instrument. This is in .mp3 format
 
-
 ## GET composed track
 
 To fetch all the track urls for an already composed track. This API requires that the [fetching instruments API](https://github.com/Beatoven/public-api/blob/main/docs/api-spec.md#fetching-instruments) call has already been made
@@ -312,20 +348,22 @@ To fetch all the track urls for an already composed track. This API requires tha
 `GET /api/v2/tracks/<track_id>`
 
 **Arguments**
+
 - `track_id`: Track ID returned in the response of the track creation request.
 - `version`: (Optional) Track ID version
-
 
 ### Response
 
 Response returns the downloadable url, section level urls and instrument level urls (if they exists)
 
 **Example**:
+
 ```json
 {
-   "download_url": "<signed_s3_url>",
-   "section_options": "<section_options>",
-   "instrument_urls": "<instrument_urls>",
+  "download_url": "<signed_s3_url>",
+  "section_options": "<section_options>",
+  "instrument_urls": "<instrument_urls>",
+  "prompts": ["<prompt>"]
 }
 ```
 
@@ -347,41 +385,77 @@ You can use this API, to get the supported values for track parameters like genr
 
 ```json
 {
-   "genre": ["indian", "pop", "ambient", "indie", "rnb", "cinematic", "hiphop", "electronic"],
-   "emotion": ["sad", "calm", "motivational", "happy", "scary", "cheerful", "angry", "triumphant", "relaxing", "depressing", "dreamy", "inspirational", "energetic", "joyful", "tense", "fearful"],
-   "tempo": ["slow", "medium", "fast"],
-   "blockedParams": [
-      {
-            "genre": "rnb",
-            "moods": ["tense", "angry", "scary", "fearful", "sad", "inspirational", "depressing", "motivational", "triumphant"],
-            "tempo": "slow"
-      },
-      {
-            "genre": "rnb",
-            "moods": ["inspirational", "motivational", "triumphant"],
-            "tempo": "fast"
-      },
-      {
-            "genre": "indie",
-            "moods": ["energetic"],
-            "tempo": "slow"
-      },
-      {
-            "genre": "indie",
-            "mood": ["energetic"],
-            "tempo": "medium"
-      },
-      {
-            "genre": "cinematic",
-            "moods": ["energetic"],
-            "tempo": "slow"
-      },
-      {
-            "genre": "hiphop",
-            "moods": ["energetic"],
-            "tempo": "slow"
-      }
-   ]
+  "genre": [
+    "indian",
+    "pop",
+    "ambient",
+    "indie",
+    "rnb",
+    "cinematic",
+    "hiphop",
+    "electronic"
+  ],
+  "emotion": [
+    "sad",
+    "calm",
+    "motivational",
+    "happy",
+    "scary",
+    "cheerful",
+    "angry",
+    "triumphant",
+    "relaxing",
+    "depressing",
+    "dreamy",
+    "inspirational",
+    "energetic",
+    "joyful",
+    "tense",
+    "fearful"
+  ],
+  "tempo": ["slow", "medium", "fast"],
+  "blockedParams": [
+    {
+      "genre": "rnb",
+      "moods": [
+        "tense",
+        "angry",
+        "scary",
+        "fearful",
+        "sad",
+        "inspirational",
+        "depressing",
+        "motivational",
+        "triumphant"
+      ],
+      "tempo": "slow"
+    },
+    {
+      "genre": "rnb",
+      "moods": ["inspirational", "motivational", "triumphant"],
+      "tempo": "fast"
+    },
+    {
+      "genre": "indie",
+      "moods": ["energetic"],
+      "tempo": "slow"
+    },
+    {
+      "genre": "indie",
+      "mood": ["energetic"],
+      "tempo": "medium"
+    },
+    {
+      "genre": "cinematic",
+      "moods": ["energetic"],
+      "tempo": "slow"
+    },
+    {
+      "genre": "hiphop",
+      "moods": ["energetic"],
+      "tempo": "slow"
+    }
+  ]
 }
 ```
 
