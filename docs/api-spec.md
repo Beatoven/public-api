@@ -284,41 +284,41 @@ You can use this API, to get the supported values for track parameters like genr
 
 ```json
 {
-  "genre": ["indian", "pop", "ambient", "indie", "rnb", "cinematic", "hiphop", "electronic"],
-  "emotion": ["sad", "calm", "motivational", "happy", "scary", "cheerful", "angry", "triumphant", "relaxing", "depressing", "dreamy", "inspirational", "energetic", "joyful", "tense", "fearful"],
-  "tempo": ["slow", "medium", "fast"],
-  "blockedParams": [
-    {
-          "genre": "rnb",
-          "moods": ["tense", "angry", "scary", "fearful", "sad", "inspirational", "depressing", "motivational", "triumphant"],
-          "tempo": "slow"
-    },
-    {
-          "genre": "rnb",
-          "moods": ["inspirational", "motivational", "triumphant"],
-          "tempo": "fast"
-    },
-    {
-          "genre": "indie",
-          "moods": ["energetic"],
-          "tempo": "slow"
-    },
-    {
-          "genre": "indie",
-          "mood": ["energetic"],
-          "tempo": "medium"
-    },
-    {
-          "genre": "cinematic",
-          "moods": ["energetic"],
-          "tempo": "slow"
-    },
-    {
-          "genre": "hiphop",
-          "moods": ["energetic"],
-          "tempo": "slow"
-    }
-  ]
+   "genre": ["indian", "pop", "ambient", "indie", "rnb", "cinematic", "hiphop", "electronic"],
+   "emotion": ["sad", "calm", "motivational", "happy", "scary", "cheerful", "angry", "triumphant", "relaxing", "depressing", "dreamy", "inspirational", "energetic", "joyful", "tense", "fearful"],
+   "tempo": ["slow", "medium", "fast"],
+   "blockedParams": [
+      {
+            "genre": "rnb",
+            "moods": ["tense", "angry", "scary", "fearful", "sad", "inspirational", "depressing", "motivational", "triumphant"],
+            "tempo": "slow"
+      },
+      {
+            "genre": "rnb",
+            "moods": ["inspirational", "motivational", "triumphant"],
+            "tempo": "fast"
+      },
+      {
+            "genre": "indie",
+            "moods": ["energetic"],
+            "tempo": "slow"
+      },
+      {
+            "genre": "indie",
+            "mood": ["energetic"],
+            "tempo": "medium"
+      },
+      {
+            "genre": "cinematic",
+            "moods": ["energetic"],
+            "tempo": "slow"
+      },
+      {
+            "genre": "hiphop",
+            "moods": ["energetic"],
+            "tempo": "slow"
+      }
+   ]
 }
 ```
 
