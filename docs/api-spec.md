@@ -46,53 +46,7 @@ On successful creation, you'll get a track object in response.
 ```json
 {
   "status": "Created successfully",
-  "track": {
-    "base_loop_mapping": "electronic_happy_fast",
-    "base_loops": [
-      "90a4cb25-fde6-45b9-93bc-25ef9c013d6f.wav",
-      "a518d45e-7daa-415c-a744-356996db7f8c.wav",
-      "a9432157-ea09-4b11-917e-79aef3bac7e3.wav",
-      "cee0a437-2555-4eae-a933-a32e95d98a59.wav",
-      "0bdaa484-4c75-4f89-aa8d-3023bc55fda6.wav"
-    ],
-    "created_at": "Mon, 19 Aug 2024 07:01:25 GMT",
-    "duration_ms": 30000,
-    "genre": "edm",
-    "instrument_roles": [
-      {
-        "description": "edm,energetic,",
-        "instrument_role": "melody"
-      },
-      {
-        "description": "edm,energetic,",
-        "instrument_role": "chords"
-      },
-      {
-        "description": "edm,energetic,",
-        "instrument_role": "bass"
-      },
-      {
-        "description": "edm,energetic,",
-        "instrument_role": "percussion"
-      }
-    ],
-    "media": {
-      "type": "no media",
-      "url": ""
-    },
-    "music_prompt": "upbeat edm party track",
-    "sections": [
-      {
-        "emotion": "energetic",
-        "length": 30000,
-        "start": 0
-      }
-    ],
-    "tempo": "fast",
-    "title": "party starter",
-    "track_url": "",
-    "version": 0
-  },
+  "track": {...},
   "uuid": "81b38b35-6535-4230-9e34-7c123e7d1348"
 }
 ```
@@ -151,62 +105,7 @@ Once a composition task has started, you can query the progress of the task usin
 {
   "meta": {
     "message": "Mixing your track",
-    "payload": {
-      "api_request": true,
-      "base_loop_mapping": "electronic_happy_fast",
-      "base_loops": [
-        "90a4cb25-fde6-45b9-93bc-25ef9c013d6f.wav",
-        "a518d45e-7daa-415c-a744-356996db7f8c.wav",
-        "a9432157-ea09-4b11-917e-79aef3bac7e3.wav",
-        "cee0a437-2555-4eae-a933-a32e95d98a59.wav",
-        "0bdaa484-4c75-4f89-aa8d-3023bc55fda6.wav"
-      ],
-      "created_at": "Mon, 19 Aug 2024 10:51:30 GMT",
-      "duration_ms": 30000,
-      "genre": "edm",
-      "instrument_roles": [
-        {
-          "description": "edm,energetic,",
-          "instrument_role": "melody"
-        },
-        {
-          "description": "edm,energetic,",
-          "instrument_role": "chords"
-        },
-        {
-          "description": "edm,energetic,",
-          "instrument_role": "bass"
-        },
-        {
-          "description": "edm,energetic,",
-          "instrument_role": "percussion"
-        }
-      ],
-      "instruments": [],
-      "media": {
-        "type": "no media",
-        "url": ""
-      },
-      "medium_of_composition": "audio",
-      "music_prompt": "upbeat edm party track",
-      "project_id": "81b38b35-6535-4230-9e34-7c123e7d1348",
-      "sections": [
-        {
-          "emotion": "energetic",
-          "length": 30000.0,
-          "start": 0
-        }
-      ],
-      "signed_url": true,
-      "source": {
-        "api_key": "<api_key>"
-      },
-      "task_id": "31c2f468-392d-4a6c-9250-9f0b6bd94c9e",
-      "tempo": "fast",
-      "title": "party starter",
-      "version": 1,
-      "volumeCurve": []
-    },
+    "payload": {...},
     "percentage": 70
   },
   "state": "PROGRESS"
