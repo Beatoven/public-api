@@ -74,7 +74,7 @@ Once a track has been initialized, you can use the track ID and compose API to c
 
 **Description**
 
-- `format`: format of the generated assets. Can be chosen between `mp3` and `wav`. Default is `wav`
+- `format`: format of the generated assets. Can be chosen as `mp3`, `aac` and `wav`. Default is `wav`
 - `looping`: control the extent of looping in the track. Set `true` for higher amount of looping. The default value is `false`
 
 ### Response
