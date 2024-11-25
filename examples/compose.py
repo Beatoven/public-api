@@ -4,7 +4,7 @@ import os
 import aiohttp
 import aiofiles
 
-BACKEND_V1_API_URL = "https://sync.beatoven.ai/api/v1"
+BACKEND_V1_API_URL = "https://public-api.beatoven.ai/api/v1"
 BACKEND_API_HEADER_KEY = os.getenv("BEATOVEN_API_KEY", "")
 
 async def create_track(request_data):
@@ -13,7 +13,7 @@ async def create_track(request_data):
             async with session.post(
                 f"{BACKEND_V1_API_URL}/tracks",
                 json=request_data,
-                headers={"Authorization": f"api_key {BACKEND_API_HEADER_KEY}"},
+                headers={"Authorization": f"Bearer {BACKEND_API_HEADER_KEY}"},
             ) as response:
                 print(response)
                 data = await response.json()
@@ -28,9 +28,9 @@ async def compose_track(request_data, track_id):
     async with aiohttp.ClientSession() as session:
         try:
             async with session.post(
-                f"{BACKEND_V1_API_URL}/tracks/{track_id}/compose",
+                f"{BACKEND_V1_API_URL}/tracks/compose/{track_id}",
                 json=request_data,
-                headers={"Authorization": f"api_key {BACKEND_API_HEADER_KEY}"},
+                headers={"Authorization": f"Bearer {BACKEND_API_HEADER_KEY}"},
             ) as response:
                 if response.status == 200:
                     data = await response.json()
@@ -48,8 +48,8 @@ async def get_track_status(task_id):
     async with aiohttp.ClientSession() as session:
         try:
             async with session.get(
-                f"{BACKEND_V1_API_URL}/status/{task_id}",
-                headers={"Authorization": f"api_key {BACKEND_API_HEADER_KEY}"},
+                f"{BACKEND_V1_API_URL}/tasks/{task_id}",
+                headers={"Authorization": f"Bearer {BACKEND_API_HEADER_KEY}"},
             ) as response:
                 if response.status == 200:
                     data = await response.json()
@@ -76,42 +76,27 @@ async def handle_track_file(track_path: str, track_url: str):
             raise Exception({"error": "Failed to make a request to get track file"})
 
 
-async def watch_task_status(task_id, interval=5):
+async def watch_task_status(task_id, interval=10):
     while True:
         track_status = await get_track_status(task_id)
         if "error" in track_status:
             raise Exception(track_status)
 
-        if track_status["state"] == "PENDING":
+        if track_status.get("status") == "composing":
             await asyncio.sleep(interval)
-        elif track_status["state"] == "FAILURE":
+        elif track_status.get("status") == "failed":
             raise Exception({"error": "task failed"})
-        elif track_status["state"] == "PROGRESS":
-            progress_info = track_status["meta"]
-            progress_percentage = int(progress_info["percentage"])
-            print(f"Composition progress: {progress_percentage}%")
-            await asyncio.sleep(interval)
         else:
             return track_status
 
 
 async def create_and_compose(duration=30000, genre="cinematic", mood="happy", tempo="medium"):
     track_meta = {
-        "title": "my track",
-        "duration_ms": duration,
-        "genre": genre,
-        "tempo": tempo,
-        "sections": [
-            {
-                "start": 0,
-                "length": 30000,
-                "emotion": mood,
-            }
-        ]
+        "prompt": { "text": "30 seconds peaceful lo-fi chill hop track"}
     }
 
     track_obj = await create_track(track_meta)
-    track_id = track_obj["uuid"]
+    track_id = track_obj["tracks"][0]
     print(f"Created track with ID: {track_id}")
 
     compose_res = await compose_track(track_meta, track_id)
@@ -119,8 +104,9 @@ async def create_and_compose(duration=30000, genre="cinematic", mood="happy", te
     print(f"Started composition task with ID: {task_id}")
 
     generation_meta = await watch_task_status(task_id)
-    track_url =  generation_meta["meta"]["download_url"]
-    print(f"Downloading track file")
+    print(generation_meta)
+    track_url =  generation_meta["meta"]["track_url"]
+    print("Downloading track file")
     await handle_track_file(os.path.join(os.getcwd(), "composed_track.mp3"), track_url)
     print("Composed! you can find your track as `composed_track.mp3`")
 
