@@ -12,68 +12,31 @@ Beatoven.ai API uses an API token based authentication (using Bearer authenticat
 
 All `POST` endpoints accept a json body, so please include `content-type: application/json` in your requests.
 
-## Creating a new track
-
-Before composing a track, you'll need to create/initialize a track.
-
-### Request
-
-**Endpoint**
-
-`POST /api/v1/tracks`
-
-**Payload Example**
-
-This example request body will create a new track with the prompt specified in the body.
-
-```json
-{
-   "prompt": {
-      "text": "30 seconds peaceful lo-fi chill hop track"
-   }
-}
-```
-
-### Response
-
-On successful creation, you'll get a track object in response.
-
-**Example**
-```json
-{
-   "status": "created",
-   "tracks": ["ccb84650-7b4a-4d00-9f80-8a6427ca21aa"]
-}
-```
-
-**Description**
-
-`tracks`: This is the list of track IDs created. Currently, there will be only one track in this list
-
 ## Composing a track
 
-Once a track has been initialized, you can use the track ID and compose API to compose the track.
+You can use the compose API with `prompt` to compose the track.
 
 ## Request
 
 **Endpoint**
 
-`POST /api/v1/tracks/compose/<track_id>`
-
-**Arguments**
-- `track_id`: Track ID returned in the response of the track creation request.
+`POST /api/v1/tracks/compose`
 
 **Payload**
 
 ```json
 {
-   "format": "wav",
-   "looping": false
+   "prompt": {
+      "text": "30 seconds peaceful lo-fi chill hop track"
+   },
+   "format": "wav", // optional
+   "looping": false // optional
 }
 ```
 
 **Description**
 
+- `prompt`: The prompt for the track.
 - `format`: format of the generated assets. Can be chosen as `mp3`, `aac` and `wav`. Default is `wav`
 - `looping`: control the extent of looping in the track. Set `true` for higher amount of looping. The default value is `false`
 
