@@ -6,6 +6,7 @@ import aiofiles
 BACKEND_V1_API_URL = "https://public-api.beatoven.ai/api/v1"
 BACKEND_API_HEADER_KEY = os.getenv("BEATOVEN_API_KEY", "")
 
+
 async def compose_track(request_data):
     async with aiohttp.ClientSession() as session:
         try:
@@ -53,7 +54,7 @@ async def handle_track_file(track_path: str, track_url: str):
                         await f.write(await response.read())
                         return {}
         except aiohttp.ClientConnectionError as e:
-            raise Exception({"error": "Could not download file"})
+            raise Exception({"error": "Could not download file"}) from e
         except Exception as e:
             raise Exception(
                 {"error": "Failed to make a request to get track file"}
